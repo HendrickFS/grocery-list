@@ -1,29 +1,29 @@
 import { ApiRouteConfig, ApiRouteHandler } from "motia";
 import { z } from "zod";
 
-const ItemSchema = z.object({
+const UpdateItemSchema = z.object({
     name: z.string().min(1, "Item name is required"),
     quantity: z.number().int().positive("Quantity must be a positive integer")
 });
 
 export const config: ApiRouteConfig = {
-    name: "AddItemAPI",
+    name: "UpdateItemAPI",
     type: "api",
-    path: "/grocery-list/add-item",
+    path: "/grocery-list/update-item",
     method: "POST",
-    bodySchema: ItemSchema,
-    description: "Adds an item to the grocery list",
-    emits: ["item-added"],
+    bodySchema: UpdateItemSchema,
+    description: "Updates the quantity of an item in the grocery list",
+    emits: ["item-updated"],
 }
 
 export const handler: ApiRouteHandler = async (req, ctx) => {
-    const data = ItemSchema.parse(req.body);
+    const data = UpdateItemSchema.parse(req.body);
     const { name, quantity } = data;
     await ctx.state.set("grocery-list", `grocery-list:item:${name}`, { name, quantity });
     return {
         status: 200,
         body: {
-            message: `Item '${name}' with quantity ${quantity} added to grocery list!`
+            message: `Item '${name}' updated with quantity ${quantity}!`
         }
     };
 }
