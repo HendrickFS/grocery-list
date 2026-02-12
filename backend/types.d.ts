@@ -14,10 +14,10 @@ declare module 'motia' {
   interface Handlers {
     'ProcessGreeting': EventHandler<{ timestamp: string; appName: string; greetingPrefix: string; requestId: string }, never>
     'HelloAPI': ApiRouteHandler<Record<string, unknown>, ApiResponse<200, { message: string; status: string; appName: string }>, { topic: 'process-greeting'; data: { timestamp: string; appName: string; greetingPrefix: string; requestId: string } }>
-    'GetListAPI': ApiRouteHandler<Record<string, unknown>, unknown, never>
-    'AddItemAPI': ApiRouteHandler<{ name: string; quantity: unknown }, unknown, never>
-    'DeleteItemAPI': ApiRouteHandler<{ name: string }, unknown, never>
     'UpdateItemAPI': ApiRouteHandler<{ name: string; quantity: unknown }, unknown, never>
+    'GetListAPI': ApiRouteHandler<Record<string, unknown>, unknown, never>
+    'DeleteItemAPI': ApiRouteHandler<{ name: string }, unknown, never>
+    'AddItemAPI': ApiRouteHandler<{ name: string; quantity: unknown }, unknown, never>
   }
     
 }

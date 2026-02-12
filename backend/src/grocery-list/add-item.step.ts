@@ -3,7 +3,8 @@ import { z } from "zod";
 
 const ItemSchema = z.object({
     name: z.string().min(1, "Item name is required"),
-    quantity: z.number().int().positive("Quantity must be a positive integer")
+    quantity: z.number().int().positive("Quantity must be a positive integer"),
+    status: z.boolean().optional().default(false)
 });
 
 export const config: ApiRouteConfig = {
@@ -18,8 +19,8 @@ export const config: ApiRouteConfig = {
 
 export const handler: ApiRouteHandler = async (req, ctx) => {
     const data = ItemSchema.parse(req.body);
-    const { name, quantity } = data;
-    await ctx.state.set("grocery-list", `grocery-list:item:${name}`, { name, quantity });
+    const { name, quantity, status } = data;
+    await ctx.state.set("grocery-list", `grocery-list:item:${name}`, { name, quantity, status });
     return {
         status: 200,
         body: {
